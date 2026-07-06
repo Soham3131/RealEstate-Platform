@@ -381,23 +381,23 @@ const PropertyMarketplace = ({ compact = false }) => {
                                         {property.status.toUpperCase()}
                                     </div>
                                 </div>
-                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.8rem', gap: '10px' }}>
-                                    <div>
+                                 <div className="mp-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.8rem', gap: '10px' }}>
+                                    <div className="mp-card-header__left" style={{ minWidth: 0, flex: 1 }}>
                                         <div style={{ fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '800', textTransform: 'uppercase', marginBottom: '4px' }}>{property.propertyType}</div>
-                                        <h3 style={{ 
-                                            fontSize: compact ? '1.15rem' : '1.35rem', 
-                                            fontWeight: '800', 
-                                            margin: 0, 
+                                        <h3 style={{
+                                            fontSize: compact ? '1.15rem' : '1.35rem',
+                                            fontWeight: '800',
+                                            margin: 0,
                                             color: 'var(--text)',
                                             lineHeight: '1.2'
                                         }}>{property.title}</h3>
                                     </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontSize: compact ? '1.2rem' : '1.5rem', fontWeight: '900', color: 'var(--text)', lineHeight: '1' }}>
-                                            <span style={{ fontSize: '0.8rem', verticalAlign: 'top', color: 'var(--text-muted)', marginRight: '2px' }}>₹</span>{property.price.toLocaleString()}
+                                    <div className="mp-card-header__right" style={{ textAlign: 'right', flexShrink: 0, minWidth: 0 }}>
+                                        <div style={{ fontSize: compact ? '1.2rem' : '1.5rem', fontWeight: '900', color: 'var(--text)', lineHeight: '1', whiteSpace: 'nowrap' }}>
+                                            {formatINR(property.price)}
                                         </div>
                                         {property.aiEstimation?.estimatedPrice > 0 && (
-                                            <div style={{ fontSize: '0.7rem', color: '#7c3aed', fontWeight: '700', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '3px', justifyContent: 'flex-end' }}>
+                                            <div style={{ fontSize: '0.7rem', color: '#7c3aed', fontWeight: '700', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '3px', justifyContent: 'flex-end', whiteSpace: 'nowrap' }}>
                                                 <Bot size={11} /> AI: {formatINR(property.aiEstimation.estimatedPrice)}
                                             </div>
                                         )}

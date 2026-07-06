@@ -247,6 +247,8 @@ const AdminArticles = () => {
       )}
 
       <div style={{ border: '1px solid var(--border)', borderRadius: '10px', background: 'var(--surface)', overflow: 'hidden' }}>
+       <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+        <div style={{ minWidth: '720px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.1fr 100px 110px 180px', gap: '0.6rem', padding: '0.75rem 0.9rem', borderBottom: '1px solid var(--border)', fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
           <div>Article</div>
           <div>Category</div>
@@ -283,6 +285,8 @@ const AdminArticles = () => {
             </div>
           ))
         )}
+        </div>
+       </div>
       </div>
     </div>
   );

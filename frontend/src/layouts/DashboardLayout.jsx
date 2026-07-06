@@ -135,9 +135,9 @@ const DashboardLayout = () => {
             )}
 
             {/* Sidebar */}
-            <aside style={{ 
-                width: windowWidth <= 768 ? 'clamp(280px, 85vw, 320px)' : (isCollapsed ? '80px' : '260px'), 
-                minWidth: windowWidth <= 768 ? 'auto' : (isCollapsed ? '80px' : '260px'),
+            <aside style={{
+                width: windowWidth <= 768 ? 'clamp(260px, 80vw, 300px)' : (isCollapsed ? '70px' : '230px'),
+                minWidth: windowWidth <= 768 ? 'auto' : (isCollapsed ? '70px' : '230px'),
                 background: 'var(--sidebar-bg)', 
                 fontFamily: 'var(--font-sans)',
                 display: 'flex', 
@@ -340,16 +340,16 @@ const DashboardLayout = () => {
             </aside>
 
             {/* Main Content Area */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, width: '100%', maxWidth: '100%', overflowX: 'clip' }}>
                 {/* HeaderBar */}
-                <header style={{ 
-                    height: '70px', 
-                    background: 'var(--header-bg)', 
+                <header style={{
+                    height: '58px',
+                    background: 'var(--header-bg)',
                     fontFamily: 'var(--font-sans)',
-                    display: 'flex', 
-                    alignItems: 'center', 
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '0 clamp(1rem, 5vw, 2.5rem)',
+                    padding: '0 clamp(0.85rem, 4vw, 2rem)',
                     borderBottom: '1px solid var(--border)',
                     position: 'sticky',
                     top: 0,

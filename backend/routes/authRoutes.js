@@ -99,17 +99,22 @@ router.get('/me', protect, async (req, res) => {
 // @route   POST /api/auth/save-property/:id
 router.post('/save-property/:id', protect, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
         const propertyId = req.params.id;
-        
-        if (user.savedProperties.includes(propertyId)) {
-            user.savedProperties = user.savedProperties.filter(id => id.toString() !== propertyId);
-        } else {
-            user.savedProperties.push(propertyId);
-        }
-        
-        await user.save();
-        res.json(user.savedProperties);
+        // Use $addToSet / $pull with runValidators:false so we don't re-validate
+        // legacy fields (e.g. capitalized `role` values that pre-date the
+        // current enum) when toggling a saved property.
+        const existing = await User.findById(req.user._id).select('savedProperties').lean();
+        if (!existing) return res.status(404).json({ message: 'User not found' });
+        const has = (existing.savedProperties || []).some((id) => String(id) === String(propertyId));
+        const update = has
+            ? { $pull: { savedProperties: propertyId } }
+            : { $addToSet: { savedProperties: propertyId } };
+        const updated = await User.findByIdAndUpdate(
+            req.user._id,
+            update,
+            { new: true, runValidators: false },
+        ).select('savedProperties');
+        res.json(updated.savedProperties);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

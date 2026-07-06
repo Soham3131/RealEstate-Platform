@@ -459,7 +459,9 @@ const AdminDashboard = () => {
         });
       }
     } catch (error) {
-      alert("Failed to update block status");
+      const reason = error?.response?.data?.message || error?.message || 'Unknown error';
+      alert(`Failed to update block status: ${reason}`);
+      console.error('Block user error:', error);
     }
   };
 
@@ -691,8 +693,11 @@ const AdminDashboard = () => {
           agency: { ...agencyDetails.agency, isApproved },
         });
       }
+      alert(isApproved ? 'Agency approved.' : 'Agency access revoked.');
     } catch (error) {
-      console.error(error);
+      const reason = error?.response?.data?.message || error?.message || 'Unknown error';
+      alert(`Failed to ${isApproved ? 'approve' : 'revoke'} agency: ${reason}`);
+      console.error('Approve/revoke agency error:', error);
     }
   };
 
@@ -4783,11 +4788,11 @@ const AdminDashboard = () => {
               marginTop: "2.5rem",
               padding: "2.5rem",
               borderRadius: "1.5rem",
-              background: "linear-gradient(90deg, #c2410c, #9a3412)",
+              background: "linear-gradient(90deg, #c6a15b, #a8845a)",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              boxShadow: "0 20px 40px -15px rgba(194, 65, 12, 0.4)",
+              boxShadow: "0 20px 40px -15px rgba(198, 161, 91, 0.4)",
             }}
           >
             <div>
@@ -4804,7 +4809,7 @@ const AdminDashboard = () => {
               <p
                 style={{ color: "rgba(255,255,255,0.8)", fontSize: "0.95rem" }}
               >
-                248 new agent applications are waiting for your approval.
+                {pendingAgenciesList.length} {pendingAgenciesList.length === 1 ? 'new agent application is' : 'new agent applications are'} waiting for your approval.
                 Processing time is currently within the expected 24-hour window.
               </p>
             </div>

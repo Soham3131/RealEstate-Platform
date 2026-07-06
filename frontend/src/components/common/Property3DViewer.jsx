@@ -285,8 +285,8 @@ function PanoramaControls({ autoRotate }) {
       state.current.lastX = e.clientX;
       state.current.lastY = e.clientY;
       state.current.lastMove = performance.now();
-      state.current.targetLon += dx * 1.2;
-      state.current.targetLat = THREE.MathUtils.clamp(state.current.targetLat - dy * 1.2, -85, 85);
+      state.current.targetLon += dx * 2.4;
+      state.current.targetLat = THREE.MathUtils.clamp(state.current.targetLat - dy * 2.4, -85, 85);
     };
     const onUp = (e) => {
       if (!state.current.dragging) return;
@@ -324,8 +324,8 @@ function PanoramaControls({ autoRotate }) {
     if (autoRotate && !s.dragging && performance.now() - s.lastMove > 3000) {
       s.targetLon += delta * 4;
     }
-    s.lon += (s.targetLon - s.lon) * 0.35;
-    s.lat += (s.targetLat - s.lat) * 0.35;
+    s.lon += (s.targetLon - s.lon) * 0.55;
+    s.lat += (s.targetLat - s.lat) * 0.55;
 
     const phi = THREE.MathUtils.degToRad(90 - s.lat);
     const theta = THREE.MathUtils.degToRad(s.lon);

@@ -132,7 +132,7 @@ const Navbar = () => {
     if (location.pathname.startsWith('/dashboard')) return null;
 
     const isMobile = windowWidth <= 768;
-    const navHeight = isMobile ? '54px' : '68px';
+    const navHeight = isMobile ? '48px' : '60px';
     const isHome = location.pathname === '/';
     const transparent = isHome && !scrolled;
     const navTextColor = transparent ? '#FFFFFF' : '#0F172A';
@@ -166,8 +166,8 @@ const Navbar = () => {
                     {/* Logo Section */}
                     <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: isMobile ? '8px' : '12px', flexShrink: 1, minWidth: 0 }}>
                         <div style={{
-                            width: isMobile ? '35px' : '45px',
-                            height: isMobile ? '35px' : '45px',
+                            width: isMobile ? '30px' : '38px',
+                            height: isMobile ? '30px' : '38px',
                             borderRadius: '3px',
                             overflow: 'hidden',
                             border: 'none',
@@ -180,7 +180,7 @@ const Navbar = () => {
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                             <div style={{
-                                fontSize: isMobile ? '1.1rem' : '1.4rem',
+                                fontSize: isMobile ? '0.98rem' : '1.2rem',
                                 fontWeight: '800',
                                 color: navTextColor,
                                 lineHeight: '1.1',
@@ -311,7 +311,7 @@ const Navbar = () => {
                                 }}>
                                     Login
                                 </Link>
-                                <Link to="/register" className="btn btn-primary" style={{ padding: '0.8rem 2.2rem', fontSize: '1rem', borderRadius: '3px', fontWeight: '800', textDecoration: 'none', color: '#0F172A' }}>
+                                <Link to="/register" className="btn btn-primary" style={{ padding: '0.55rem 1.6rem', fontSize: '0.85rem', borderRadius: '3px', fontWeight: '800', textDecoration: 'none', color: '#0F172A' }}>
                                     Join Now
                                 </Link>
                             </div>
@@ -423,7 +423,7 @@ const Navbar = () => {
                 <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', marginBottom: '1.5rem' }}>
                     <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', opacity: 0.8 }}>Account</div>
                     {user ? (
-                    <>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             <Link to={user.role === 'Buyer' ? '/dashboard/user/dashboard' : `/dashboard/${user.role.toLowerCase()}`} className="mobile-menu-item">
                                 <User size={20} /> My Dashboard
                             </Link>
@@ -431,7 +431,7 @@ const Navbar = () => {
                             <button onClick={handleLogout} className="mobile-menu-item" style={{ border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer', background: 'var(--surface-light)' }}>
                                 <LogOut size={20} /> Logout
                             </button>
-                    </>
+                        </div>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             <Link to="/login" className="mobile-menu-item" style={{ background: 'var(--surface-light)' }}>
@@ -442,7 +442,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                <div style={{ marginTop: 'auto', padding: '1.5rem', background: 'var(--surface-light)', borderRadius: '3px', textAlign: 'center', border: '1px solid var(--border)' }}>
+                <div style={{ marginTop: 'auto', padding: '1.5rem', background: 'var(--surface-light)', borderRadius: '3px', textAlign: 'center', border: '1px solid var(--border)', flexShrink: 0 }}>
                     <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Expertly Curated</div>
                     <div style={{ fontSize: '1.1rem', fontWeight: '900', color: 'var(--text)' }}>
                         Millionaire <span style={{ color: 'var(--primary)' }}>Club</span>

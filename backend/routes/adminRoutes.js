@@ -139,14 +139,16 @@ router.get('/users', protect, requireRole('admin', 'teamlead'), async (req, res)
 // @route   PATCH /api/admin/users/:id/approve
 router.patch('/users/:id/approve', protect, requireRole('admin', 'teamlead'), async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (user) {
-            user.isApproved = req.body.isApproved;
-            const updatedUser = await user.save();
-            res.json(updatedUser);
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
+        // Use $set + runValidators:false so we only touch isApproved and don't
+        // re-validate legacy fields (e.g. capitalized `role` values that
+        // pre-date the current enum).
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            { $set: { isApproved: !!req.body.isApproved } },
+            { new: true, runValidators: false },
+        );
+        if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+        res.json(updatedUser);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -210,12 +212,20 @@ router.delete('/users/:id', protect, requireRole('admin'), async (req, res) => {
 router.patch('/users/:id/block', protect, requireRole('admin', 'teamlead'), async (req, res) => {
     const { isBlocked } = req.body;
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        if (user.role === 'admin') return res.status(400).json({ message: 'Cannot block Admins' });
+        // Fetch role first so we can guard against blocking admins, then do
+        // a $set update that bypasses full-document validation. Some legacy
+        // users have capitalized role values not in the current enum, which
+        // would otherwise make user.save() fail.
+        const existing = await User.findById(req.params.id).select('role').lean();
+        if (!existing) return res.status(404).json({ message: 'User not found' });
+        const roleLc = String(existing.role || '').toLowerCase();
+        if (roleLc === 'admin') return res.status(400).json({ message: 'Cannot block Admins' });
 
-        user.isBlocked = isBlocked;
-        await user.save();
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { $set: { isBlocked: !!isBlocked } },
+            { new: true, runValidators: false },
+        );
 
         // Notify User
         await Notification.create({
