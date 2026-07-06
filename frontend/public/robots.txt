@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://millionaireclub.avanienterprises.in/sitemap.xml
