@@ -33,10 +33,12 @@ const AllLeads = () => {
         try {
             setLoading(true);
             const { data } = await axios.get(`${API_BASE_URL}/leads`);
-            setLeads(data);
+            const leadsList = Array.isArray(data) ? data : (data?.data || data?.leads || []);
+            setLeads(leadsList);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching leads:', error);
+            setLeads([]);
             setLoading(false);
         }
     };

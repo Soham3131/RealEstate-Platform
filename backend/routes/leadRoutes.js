@@ -102,7 +102,12 @@ router.patch('/:id/status', protect, authorize('Agency', 'Admin'), async (req, r
                 relatedId: lead._id
             });
 
-            res.json(updatedLead);
+            const populatedLead = await Lead.findById(updatedLead._id)
+                .populate('property', 'title price location')
+                .populate('buyer', 'name email phoneNumber')
+                .populate('agency', 'name email phoneNumber');
+
+            res.json(populatedLead || updatedLead);
         } else {
             res.status(404).json({ message: 'Lead not found' });
         }
@@ -160,7 +165,11 @@ router.post('/:id/notes', protect, authorize('Agency', 'Admin'), async (req, res
         if (lead) {
             lead.notes.push({ content: req.body.content });
             await lead.save();
-            res.json(lead);
+            const populated = await Lead.findById(lead._id)
+                .populate('property', 'title price location')
+                .populate('buyer', 'name email phoneNumber')
+                .populate('agency', 'name email phoneNumber');
+            res.json(populated || lead);
         } else {
             res.status(404).json({ message: 'Lead not found' });
         }
