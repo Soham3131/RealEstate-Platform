@@ -24,17 +24,33 @@ const upload = require('./middleware/uploadMiddleware');
 
 const app = express();
 
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5174',
+    'https://real-estate-platform-self.vercel.app',
+    'https://real-estate-platform-henna.vercel.app',
+    'https://millionaireclub.avanienterprises.in',
+    'http://millionaireclub.avanienterprises.in',
+];
+
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://127.0.0.1:5173',
-        'http://127.0.0.1:5174',
-        'https://real-estate-platform-self.vercel.app',
-        'https://millionaireclub.avanienterprises.in',
-        'http://millionaireclub.avanienterprises.in',
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        return callback(null, false);
+    },
     credentials: true
 }));
 app.use(express.json());
